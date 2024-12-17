@@ -13,11 +13,18 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-window.Echo.channel('message').listen(
-    'messageSent',
+// window.Echo.channel('messages').listen(
+//     'pusher:subscribe',
 
+//     (event) => {
+//         console.log('New message:', event.message);
+//     },
+// );
+
+window.Echo.channel('messages').listen(
+    '.message.sent', // Match the custom event name
     (event) => {
-        console.log('New message:', event.message);
+        console.log('New message:', event.message); // Logs the received message
     },
 );
 
