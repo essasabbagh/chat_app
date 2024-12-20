@@ -2,48 +2,101 @@
 
 namespace App\Events;
 
+use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class MessageSent implements ShouldBroadcast
+class MessageSent implements ShouldBroadcastNow
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
     public $message;
-    /**
-     * Create a new event instance.
-     */
-    public function __construct(
-        $message
-    ) {
+
+    public function __construct(Message $message)
+    {
         $this->message = $message;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): Channel
+    public function broadcastOn()
     {
-        return new Channel('messages');
+        // Broadcast to the receiver's private channel
+        return [
+            // new Channel('messages'),
+            new PrivateChannel('chat.' . $this->message->receiver_id), //  . $this->message->receiver_id
+        ];
     }
 
     public function broadcastWith()
     {
-         return [
-            'message' => $this->message,
-            'timestamp' => now(),
+        return [
+            'id' => $this->message->id,
+            'message' => $this->message->message,
+            'sender_id' => $this->message->sender_id,
+            'receiver_id' => $this->message->receiver_id,
+            'created_at' => $this->message->created_at,
         ];
     }
 
-    public function broadcastAs()
-    {
-        return 'message.sent';
-    }
+    // public function broadcastAs()
+    // {
+    //     return 'message.sent';
+    // }
 }
+
+
+
+// class MessageSent implements ShouldBroadcastNow
+// {
+//     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+//     public Message $message;
+//     /**
+//      * Create a new event instance.
+//      */
+//     public function __construct(Message $message)
+//     {
+//         $this->message = $message;
+//     }
+
+//     /**
+//      * Get the channels the event should broadcast on.
+//      *
+//      * @return array<int, \Illuminate\Broadcasting\Channel>
+//      */
+//     // public function broadcastOn(): PrivateChannel
+//     // {
+//     //     return new PrivateChannel(
+//     //         'chat.' . $this->message->receiver_id,
+//     //     );
+//     // }
+
+//     public function broadcastOn(): Channel|array
+//     {
+//         return new PrivateChannel(
+//             'chat.' . $this->message->receiver_id,
+//         ); // Use user ID to make it private
+//     }
+
+//     public function broadcastWith()
+//     {
+//         return [
+//             'id' => $this->message->id,
+//             'message' => $this->message->message,
+//             'sender_id' => $this->message->sender_id,
+//             'created_at' => $this->message->created_at
+//         ];
+//         // return [
+//         //     'message' => $this->message,
+//         //     'timestamp' => now(),
+//         // ];
+//     }
+
+//     public function broadcastAs()
+//     {
+//         return 'message.sent';
+//     }
+// }

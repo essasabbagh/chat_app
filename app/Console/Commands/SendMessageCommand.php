@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
+use App\Models\Message;
+use App\Events\OrderEvent;
 use App\Events\MessageSent;
 use Illuminate\Console\Command;
 use function Laravel\Prompts\text;
@@ -36,7 +39,22 @@ class SendMessageCommand extends Command
             required: true,
         );
 
-        MessageSent::dispatch($message);
+        // MessageSent::dispatch(Message::find(19));
+
+        $msg = Message::create(
+            [
+                'sender_id' => 1,
+                'receiver_id' => 22,
+                'message' => $message,
+            ]
+        );
+        broadcast(new MessageSent(
+            $msg
+        ));
+
+        // broadcast(new OrderEvent(
+        //     User::find(22),
+        // ));
 
     }
 }

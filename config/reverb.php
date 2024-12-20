@@ -35,6 +35,7 @@ return [
             'options' => [
                 'tls' => [],
             ],
+            'auth_endpoint' => '/broadcasting/auth',
             'max_request_size' => env('REVERB_MAX_REQUEST_SIZE', 10_000),
             'scaling' => [
                 'enabled' => env('REVERB_SCALING_ENABLED', false),

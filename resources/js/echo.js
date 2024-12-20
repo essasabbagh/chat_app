@@ -21,10 +21,24 @@ window.Echo = new Echo({
 //     },
 // );
 
-window.Echo.channel('messages').listen(
-    '.message.sent', // Match the custom event name
-    (event) => {
-        console.log('New message:', event.message); // Logs the received message
-    },
-);
+// window.Echo.channel('messages').listen(
+//     '.message.sent', // Match the custom event name
+//     (event) => {
+//         console.log('New message:', event.message); // Logs the received message
+//     },
+// );
+// window.Echo.private('chat.1').listen(
+//     '.message.sent', // Match the custom event name
+//     (event) => {
+//         console.log('user message:', event.message); // Logs the received message
+//     },
+// );
+
+// window.Echo.private(`chat.1`)
+//     .listen('.message.sent', (response) => {
+//         console.log("Event received from echo js:", response);
+//     });
+
+
+
 
