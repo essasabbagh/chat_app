@@ -13,16 +13,21 @@ class MessageController extends Controller
 
     public function sendMessage(Request $request)
     {
-        $message = Message::create([
-            'sender_id' => auth()->id(),
-            'receiver_id' => $request->receiver_id,
-            'message' => $request->message
-        ]);
 
-        // Broadcast the message
-        broadcast(new MessageSent($message))->toOthers();
+        try {
+            $message = Message::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $request->receiver_id,
+                'message' => $request->message
+            ]);
 
-        return response()->json($message);
+            // Broadcast the message
+            broadcast(new MessageSent($message))->toOthers();
+
+            return response()->json($message);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => $th], status: 400);
+        }
     }
     // public function sendMessage(Request $request)
     // {
@@ -51,7 +56,7 @@ class MessageController extends Controller
     public function getMessages($receiverId)
     {
         $messages = Message::where(function ($query) use ($receiverId) {
-            $query->where('sender_id', auth()->id())
+            $query->where('sender_id', operator: auth()->id())
                 ->where('receiver_id', $receiverId);
         })->orWhere(function ($query) use ($receiverId) {
             $query->where('sender_id', $receiverId)

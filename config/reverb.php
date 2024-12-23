@@ -32,6 +32,7 @@ return [
             'host' => env('REVERB_SERVER_HOST', '0.0.0.0'),
             'port' => env('REVERB_SERVER_PORT', 8080),
             'hostname' => env('REVERB_HOST'),
+
             'options' => [
                 'tls' => [],
             ],
@@ -82,6 +83,11 @@ return [
                     'useTLS' => env('REVERB_SCHEME', 'https') === 'https',
                 ],
                 'allowed_origins' => ['*'],
+                // 'allowed_origins' => [
+                //     'http://10.0.2.2',
+                //     'http://192.168.1.12',
+                //     'http://your-app-domain.test',
+                // ],
                 'ping_interval' => env('REVERB_APP_PING_INTERVAL', 60),
                 'activity_timeout' => env('REVERB_APP_ACTIVITY_TIMEOUT', 30),
                 'max_message_size' => env('REVERB_APP_MAX_MESSAGE_SIZE', 10_000),

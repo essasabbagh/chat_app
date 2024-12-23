@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        User::factory()->count(10)->create();
+        // User::factory()->count(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -39,15 +39,30 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        User::create([
-            'name' => 'old User',
-            'email' => 'old@example.com',
-            'password' => bcrypt('password'),
-            'username' => $this->generateUniqueUsername('test_user'),
-            'bio' => 'Test user bio',
-            'phone_number' => '1234567890',
-            'status' => 'online'
-        ]);
+        if (!User::where('email', 'old@example.com')->exists()) {
+            User::create([
+                'name' => 'old User',
+                'email' => 'old@example.com',
+                'password' => bcrypt('password'),
+                'username' => $this->generateUniqueUsername('test_user'),
+                'bio' => 'Test user bio',
+                'phone_number' => '1234567890',
+                'status' => 'online'
+            ]);
+        }
+
+        if (!User::where('email', 'isa@example.com')->exists()) {
+            User::create([
+                'name' => 'Isa',
+                'email' => 'isa@example.com',
+                'password' => bcrypt('password'),
+                'username' => $this->generateUniqueUsername('test_user'),
+                'bio' => 'Test user bio',
+                'phone_number' => '1234567890',
+                'status' => 'online'
+            ]);
+
+        }
     }
 
 
