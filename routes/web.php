@@ -5,11 +5,18 @@ use App\Models\Message;
 use App\Events\OrderEvent;
 use App\Events\MessageSent;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// 3. Create routes in routes/web.php
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('/chat', [ChatController::class, 'chat'])->name('chat.send');
+
 
 Route::get('/hi', function () {
     broadcast(new OrderEvent(
