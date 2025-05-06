@@ -25,8 +25,9 @@ class MessageController extends Controller
             broadcast(new MessageSent($message))->toOthers();
 
             return response()->json($message);
-        } catch (\Throwable $th) {
-            return response()->json(['errors' => $th], status: 400);
+        } catch (\Exceptions $e) {
+        // } catch (\Throwable $th) {
+            return response()->json(['errors' => $e->getMessage()], status: 400);
         }
     }
     // public function sendMessage(Request $request)

@@ -32,8 +32,12 @@ return [
             'host' => env('REVERB_SERVER_HOST', '0.0.0.0'),
             'port' => env('REVERB_SERVER_PORT', 8080),
             'hostname' => env('REVERB_HOST'),
-
             'options' => [
+                'cluster' => env('REVERB_CLUSTER', 'mt1'),
+                'encrypted' => true,
+                'host' => env('REVERB_HOST', '127.0.0.1'),
+                'port' => env('REVERB_PORT', 6001),
+                'scheme' => env('REVERB_SCHEME', 'http'),
                 'tls' => [],
             ],
             'auth_endpoint' => '/broadcasting/auth',
@@ -53,7 +57,6 @@ return [
             'pulse_ingest_interval' => env('REVERB_PULSE_INGEST_INTERVAL', 15),
             'telescope_ingest_interval' => env('REVERB_TELESCOPE_INGEST_INTERVAL', 15),
         ],
-
     ],
 
     /*
@@ -93,7 +96,5 @@ return [
                 'max_message_size' => env('REVERB_APP_MAX_MESSAGE_SIZE', 10_000),
             ],
         ],
-
     ],
-
 ];
